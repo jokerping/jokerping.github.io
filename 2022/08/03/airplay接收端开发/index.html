@@ -1,0 +1,593 @@
+<!DOCTYPE html><html lang="[&quot;zh-CN&quot;,&quot;zh-HK&quot;,&quot;en&quot;,&quot;es&quot;,&quot;default&quot;]"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="format-detection" content="telephone=no"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><link rel="icon" href="/images/icons/favicon-16x16.png?v=2.6.2" type="image/png" sizes="16x16"><link rel="icon" href="/images/icons/favicon-32x32.png?v=2.6.2" type="image/png" sizes="32x32"><link rel="apple-touch-icon" href="/images/icons/apple-touch-icon.png?v=2.6.2" sizes="180x180"><link rel="mask-icon" href="/%5Bobject%20Object%5D?v=2.6.2" color="#54bcff"><meta name="msapplication-TileImage" content="/%5Bobject%20Object%5D"><meta name="msapplication-TileColor" content="#000000"><meta name="description" content="airplay屏幕镜像接收端开发的一些心得">
+<meta property="og:type" content="article">
+<meta property="og:title" content="airplay屏幕镜像接收端开发">
+<meta property="og:url" content="https://wzp.ink/2022/08/03/airplay%E6%8E%A5%E6%94%B6%E7%AB%AF%E5%BC%80%E5%8F%91/index.html">
+<meta property="og:site_name" content="幻想乡">
+<meta property="og:description" content="airplay屏幕镜像接收端开发的一些心得">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-08-03T02:34:32.734Z">
+<meta property="article:modified_time" content="2022-08-03T02:55:26.980Z">
+<meta property="article:author" content="joker">
+<meta property="article:tag" content="go">
+<meta property="article:tag" content="iOS">
+<meta name="twitter:card" content="summary"><title>airplay屏幕镜像接收端开发 | 幻想乡</title><link ref="canonical" href="https://wzp.ink/2022/08/03/airplay%E6%8E%A5%E6%94%B6%E7%AB%AF%E5%BC%80%E5%8F%91/"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.12.1/css/all.min.css" type="text/css"><link rel="stylesheet" href="/css/index.css?v=2.6.2"><script>var Stun = window.Stun || {};
+var CONFIG = {
+  root: '/',
+  algolia: undefined,
+  assistSearch: ["google","bing","baidu"],
+  fontIcon: {"prompt":{"success":"fas fa-check-circle","info":"fas fa-arrow-circle-right","warning":"fas fa-exclamation-circle","error":"fas fa-times-circle"},"copyBtn":"fas fa-copy"},
+  sidebar: {"offsetTop":"20px","tocMaxDepth":6},
+  header: {"enable":true,"showOnPost":true,"scrollDownIcon":true},
+  postWidget: {"endText":true},
+  nightMode: {"enable":true},
+  back2top: {"enable":true},
+  codeblock: {"style":"default","highlight":"light","wordWrap":false},
+  reward: false,
+  fancybox: false,
+  zoomImage: {"gapAside":"20px"},
+  galleryWaterfall: undefined,
+  lazyload: true,
+  pjax: {"avoidBanner":false},
+  externalLink: {"icon":{"enable":true,"name":"fas fa-external-link-alt"}},
+  shortcuts: undefined,
+  prompt: {"copyButton":"复制","copySuccess":"复制成功","copyError":"复制失败"},
+  sourcePath: {"js":"js","css":"css","images":"images"},
+};
+
+window.CONFIG = CONFIG;</script><meta name="generator" content="Hexo 5.4.0"></head><body><div class="container" id="container"><header class="header" id="header"><div class="header-inner"><nav class="header-nav header-nav--fixed"><div class="header-nav-inner"><div class="header-nav-menubtn"><i class="fas fa-bars"></i></div><div class="header-nav-menu"><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/"><span class="header-nav-menu-item__icon"><i class="fas fa-home"></i></span><span class="header-nav-menu-item__text">首页</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/archives/"><span class="header-nav-menu-item__icon"><i class="fas fa-folder-open"></i></span><span class="header-nav-menu-item__text">归档</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/categories/"><span class="header-nav-menu-item__icon"><i class="fas fa-layer-group"></i></span><span class="header-nav-menu-item__text">分类</span></a></div><div class="header-nav-menu-item"><a class="header-nav-menu-item__link" href="/tags/"><span class="header-nav-menu-item__icon"><i class="fas fa-tags"></i></span><span class="header-nav-menu-item__text">标签</span></a></div></div><div class="header-nav-search"><span class="header-nav-search__icon"><i class="fas fa-search"></i></span><span class="header-nav-search__text">搜索</span></div><div class="header-nav-mode"><div class="mode"><div class="mode-track"><span class="mode-track-moon"></span><span class="mode-track-sun"></span></div><div class="mode-thumb"></div></div></div></div></nav><div class="header-banner"><div class="header-banner-info"><div class="header-banner-info__title">幻想乡</div><div class="header-banner-info__subtitle">- ( ゜- ゜)つロ乾杯~ </div></div><div class="header-banner-arrow"><div class="header-banner-arrow__icon"><i class="fas fa-angle-down"></i></div></div></div></div></header><main class="main" id="main"><div class="main-inner"><div class="content-wrap" id="content-wrap"><div class="content" id="content"><!-- Just used to judge whether it is an article page--><div id="is-post"></div><div class="post"><header class="post-header"><h1 class="post-title">airplay屏幕镜像接收端开发</h1><div class="post-meta"><span class="post-meta-item post-meta-item--createtime"><span class="post-meta-item__icon"><i class="far fa-calendar-plus"></i></span><span class="post-meta-item__info">发表于</span><span class="post-meta-item__value">2022-08-03</span></span><span class="post-meta-item post-meta-item--updatetime"><span class="post-meta-item__icon"><i class="far fa-calendar-check"></i></span><span class="post-meta-item__info">更新于</span><span class="post-meta-item__value">2022-08-03</span></span><span class="post-meta-item post-meta-item--wordcount"><span class="post-meta-item__icon"><i class="far fa-file-word"></i></span><span class="post-meta-item__info">字数统计</span><span class="post-meta-item__value">2.6k</span></span><span class="post-meta-item post-meta-item--readtime"><span class="post-meta-item__icon"><i class="far fa-clock"></i></span><span class="post-meta-item__info">阅读时长</span><span class="post-meta-item__value">15分</span></span></div></header><div class="post-body">
+        <h1 id="abstract"   >
+          <a href="#abstract" class="heading-link"><i class="fas fa-link"></i></a><a href="#abstract" class="headerlink" title="abstract"></a>abstract</h1>
+      <p>目前网上很多airplay接收端的资料其实并不是屏幕镜像（screen mirroring），而是airplay音频或者其他功能的，airplay是个私有协议，且每个功能点具体协议内容各不相同。我通过实验+查找资料总结了一些经验和坑分享出来。</p>
+
+        <h1 id="整体流程"   >
+          <a href="#整体流程" class="heading-link"><i class="fas fa-link"></i></a><a href="#整体流程" class="headerlink" title="整体流程"></a>整体流程</h1>
+      <p>AirPlay服务整体分为两步：<br>第一步：接收端通过mDNS发送两个组播服务_airplay._tcp.local 和_raop._tcp.local 其中_raop._tcp.local 广播服务器与客户端交互信息，_airplay._tcp.local广播音视频交互信息和音视频内容。<br>第二步：接收端点击屏幕镜像后向_airplay._tcp.local中广播的端口发送RTSP请求，经过多步交互后，再通过apple自有协议发送加密的视频流。此时如果有音频数据传输，会再请求RTSP接口，之后通过RTP协议发送音频数据。</p>
+
+        <h1 id="服务发现"   >
+          <a href="#服务发现" class="heading-link"><i class="fas fa-link"></i></a><a href="#服务发现" class="headerlink" title="服务发现"></a>服务发现</h1>
+      
+        <h2 id="raop-tcp-local"   >
+          <a href="#raop-tcp-local" class="heading-link"><i class="fas fa-link"></i></a><a href="#raop-tcp-local" class="headerlink" title="_raop._tcp.local"></a>_raop._tcp.local</h2>
+      <p>此服务作用是接收端告知服务端，在与接收端通信过程所使用的通信<span class="exturl"><a class="exturl__link"   target="_blank" rel="noopener" href="https://emanuelecozzi.net/docs/airplay2/discovery/#:~:text=same%20local%20network.-,_raop._tcp.,-RAOP%20stands%20for" >参数细节</a><span class="exturl__icon"><i class="fas fa-external-link-alt"></i></span></span>，此服务为非必要服务（demo中也没有注册），如果不注册则使用客户端默认参数。</p>
+
+        <h2 id="airplay-tcp-local"   >
+          <a href="#airplay-tcp-local" class="heading-link"><i class="fas fa-link"></i></a><a href="#airplay-tcp-local" class="headerlink" title="_airplay._tcp.local"></a>_airplay._tcp.local</h2>
+      <p>此服务用于告知客户端，接收端支持的AirPlay功能、服务器信息等。<span class="exturl"><a class="exturl__link"   target="_blank" rel="noopener" href="https://openairplay.github.io/airplay-spec/service_discovery.html#_airplay_tcp:~:text=by%20Airplay%20service.-,_airplay._tcp,-name%3A%20Apple%20TV" >具体参数</a><span class="exturl__icon"><i class="fas fa-external-link-alt"></i></span></span>,<span class="exturl"><a class="exturl__link"   target="_blank" rel="noopener" href="https://emanuelecozzi.net/docs/airplay2/discovery/#:~:text=its%20mDNS%20record.-,_airplay._tcp.,-The%20_airplay%20service" >参数参考2</a><span class="exturl__icon"><i class="fas fa-external-link-alt"></i></span></span>，最主要的参数有</p>
+<p><code>features</code>：支持的功能，这个值是告知客户端服务端支持哪些功能。不同的features组合会收到不一样的请求，本文仅对屏幕镜像相关在介绍。<span class="exturl"><a class="exturl__link"   target="_blank" rel="noopener" href="https://openairplay.github.io/airplay-spec/features.html" >具体内容
+</a><span class="exturl__icon"><i class="fas fa-external-link-alt"></i></span></span>,<span class="exturl"><a class="exturl__link"   target="_blank" rel="noopener" href="https://emanuelecozzi.net/docs/airplay2/features/" >参考2</a><span class="exturl__icon"><i class="fas fa-external-link-alt"></i></span></span></p>
+<p><code>model</code>：设备型号，不同的值会在iPhone上，让接收端显示不同的图标，同时不同设备收到的请求也是不同的，目前尝试只有写AppleTV才有用，且版本不能超过5,3</p>
+<p><code>flags</code>：不同flags客户端会发送不同的请求。<span class="exturl"><a class="exturl__link"   target="_blank" rel="noopener" href="https://openairplay.github.io/airplay-spec/status_flags.html" >具体内容</a><span class="exturl__icon"><i class="fas fa-external-link-alt"></i></span></span></p>
+<p>启动服务发现服务后，手机就可以探查当前子网内提供服务的主机，当手机点击连接后，会向MDns广播中提到的地址发送RTSP协议的报文，接下来进入RTSP认证阶段。</p>
+
+        <h1 id="RTSP阶段"   >
+          <a href="#RTSP阶段" class="heading-link"><i class="fas fa-link"></i></a><a href="#RTSP阶段" class="headerlink" title="RTSP阶段"></a>RTSP阶段</h1>
+      <p>握手阶段使用RTSP1.0协议，接下来的请求按实际请求顺序书写，本阶段的内容仅限于屏幕镜像，其他功能请求流程并不一定一样，请注意。</p>
+
+        <h2 id="GET-info"   >
+          <a href="#GET-info" class="heading-link"><i class="fas fa-link"></i></a><a href="#GET-info" class="headerlink" title="GET /info"></a>GET /info</h2>
+      <p>客户端没发送什么有用信息给服务端，而是请求了服务端的一些信息，具体内容可参考demo。需要注意的是客户端和服务端交换数据body中需要使用<span class="exturl"><a class="exturl__link"   target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Property_list" >plist二进制数据</a><span class="exturl__icon"><i class="fas fa-external-link-alt"></i></span></span>进行传输，需要在header中设置</p>
+
+        <h2 id="POST-pair-setup"   >
+          <a href="#POST-pair-setup" class="heading-link"><i class="fas fa-link"></i></a><a href="#POST-pair-setup" class="headerlink" title="POST /pair-setup"></a>POST /pair-setup</h2>
+      <p>客户端请求服务端的ed25519的public key。在这个请求中，服务端需要根据客户端请求header中的Content-Length生产ed25519的public key，并返回给客户端。同时服务端也需要保存这个key，会在之后的请求中用到。</p>
+
+        <h2 id="POST-pair-verify"   >
+          <a href="#POST-pair-verify" class="heading-link"><i class="fas fa-link"></i></a><a href="#POST-pair-verify" class="headerlink" title="POST /pair-verify"></a>POST /pair-verify</h2>
+      <p>客户端会发送两次该请求，每次发送68个字节，前4个字节位标志位，01 00 00 00 根据第一个字节作为标志位判断后续操作。<br><strong>如果第一个字节是01</strong><br>则将剩余64字节分两组</p>
+<ul>
+<li>前32 字节 ecdh_their（curve25519加密对方公钥）</li>
+<li>后32 字节 ed_their（ed25519加密对方公钥）<br>1、首先使用curve25519算法生成自己的公钥、私钥。同时需要保存，会在后面使用到。<br>2、使用从客户端传过来的ecdh_their与自己的生成的私钥生成curve25519的共享秘钥ecdhShared。这个共享秘钥需要保存后面会使用。<br>3、使用ed25519算法用 /pair-setup 阶段生成的ed25519私钥进行签名，签名内容为服务器curve25519生成的公钥+客户端curve25519生成的公钥（即前32个字节）得到签名后的结果edSign<br>4、使用字符串“Pair-Verify-AES-Key”拼接ecdhShared进行sha512散列，得到散列结果shaKey<br>5、使用字符串“Pair-Verify-AES-IV”拼接ecdhShared进行sha512散列，得到散列结果shaIV<br>6、使用shaKey和shaIV的前16字节作为AES-CTR-128的key和IV对edSign进行加密。<br>7、服务返回96字节，前32字节为服务器生成的curve25519公钥，后64字节为aes加密后的结果。</li>
+</ul>
+<p><strong>如果第1个字节为00</strong><br>则为64个字节全部用作服务端验证客户端签名使用<br>1、使用AEC-CTR-128解密得到的64字节内容作为签名进行ed25519验签，其中，公钥为上一步中后32字节，验签内容为上一步中客户端发送的ecdh_their+服务器生成的curve25519公钥</p>
+
+        <h2 id="POST-fp-setup"   >
+          <a href="#POST-fp-setup" class="heading-link"><i class="fas fa-link"></i></a><a href="#POST-fp-setup" class="headerlink" title="POST /fp-setup"></a>POST /fp-setup</h2>
+      <p>客户端会发送两次该请求<br>第一次，客户端发送 16 字节请求。第 5 个字节必须是 0x03。第 15 个字节用于了解要使用的“mode”。客户端返回具体的142字节mode，mode具体内容参见demo<br>第二次，客户端发送 164 字节请求。第 5 个字节必须是 0x03。需要保存这164字节作呕为KeyMessage用于后面解码视频。<br>客户端返回32字节，前 12 个字节是fairplay的header（0x46、0x50、0x4c、0x59、0x03、0x01、0x04、0x00、0x00、0x00、0x00、0x14）其余字节是请求的最后 20 个字节。</p>
+
+        <h2 id="SETUP"   >
+          <a href="#SETUP" class="heading-link"><i class="fas fa-link"></i></a><a href="#SETUP" class="headerlink" title="SETUP"></a>SETUP</h2>
+      <p>在握手协议之后，会有两个 SETUP 请求用于初始化屏幕镜像。（如果有声音会有第三个）这些SETUP请求并非顺序发生，本文将继续按请求顺序介绍<br>第一次，客户端会发送一堆参数过来，具体格式参见demo，有用的有这几个<br>ekey：AES 密钥<br>eiv：AES IV<br>TimingPort ：用于NTP对时的客户端端口<br>TimingProtocol：用于对时的协议<br>isScreenMirroringSession：布尔值，用于指示流的类型（仅限视频或音频）<br>服务端返回，这里两个参数不确定是在这里返回还是下个SETUP接口返回。</p>
+<ul>
+<li>eventPort：客户端用来向服务端发送事件的端口</li>
+<li>TimingPort：客户端用于向服务端对时的接口</li>
+</ul>
+
+        <h2 id="GET-PARAMETER"   >
+          <a href="#GET-PARAMETER" class="heading-link"><i class="fas fa-link"></i></a><a href="#GET-PARAMETER" class="headerlink" title="GET_PARAMETER"></a>GET_PARAMETER</h2>
+      <p>客户端查询服务端的一些信息，目前在body播放只有如下内容”volume\r\n”, 镜像设备可以返回给iPhone的body部分为”volume:0.0\r\n”</p>
+
+        <h2 id="RECORD"   >
+          <a href="#RECORD" class="heading-link"><i class="fas fa-link"></i></a><a href="#RECORD" class="headerlink" title="RECORD"></a>RECORD</h2>
+      <p>服务端返回head中添加,其中audio 值为请求header的中字段2205的值。如果没有则为0</p>
+<figure class="highlight html"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;Audio-Latency&quot;: audio</span><br></pre></td></tr></table></div></figure>
+
+
+        <h2 id="SETUP-1"   >
+          <a href="#SETUP-1" class="heading-link"><i class="fas fa-link"></i></a><a href="#SETUP-1" class="headerlink" title="SETUP"></a>SETUP</h2>
+      <p><strong>第二次</strong>，在这次请求之前我们需要准备好用于接受音视频数据的服务，如果需要控制、对时，同样要把服务准备好。<br>本次请求中客户端发送的有用数据</p>
+<ul>
+<li>type：流媒体类型<ul>
+<li>96：实时音频</li>
+<li>103：缓冲音频</li>
+<li>110：屏幕镜像</li>
+<li>120：播放</li>
+<li>130：遥控器<br>streamConnectionID：当前连接的id,这个ID需要保存，会在后面解密视频时使用到<br>服务端需要返回的数据有</li>
+</ul>
+</li>
+<li>type：流媒体类型<ul>
+<li>96：实时音频</li>
+<li>103：缓冲音频</li>
+<li>110：屏幕镜像</li>
+<li>120：播放</li>
+<li>130：遥控器</li>
+</ul>
+</li>
+<li>dataPort：服务端用于接收视频数据的接口<br>其余参数和数据结构请参阅demo</li>
+</ul>
+
+        <h2 id="POST-feedback"   >
+          <a href="#POST-feedback" class="heading-link"><i class="fas fa-link"></i></a><a href="#POST-feedback" class="headerlink" title="POST /feedback"></a>POST /feedback</h2>
+      <p>客户端进行此调用以确保服务器处于活动状态，该请求的响应必须是没有正文的 200 OK。<br>在此之后客户端会向dataPort接口发送视频流，在后面会介绍。</p>
+
+        <h2 id="SETUP-2"   >
+          <a href="#SETUP-2" class="heading-link"><i class="fas fa-link"></i></a><a href="#SETUP-2" class="headerlink" title="SETUP"></a>SETUP</h2>
+      <p><strong>第三次</strong>，如果发送的镜像是有声音的，则会受到第三次请求（根据请求的type判断，具体看demo），第三次请求用于设置音频数据相关的内容。详细参数和数据结构见demo，这里只介绍主要的<br>这里服务器需要返回一个plist</p>
+<figure class="highlight xml"><div class="table-container"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">plist</span> <span class="attr">version</span>=<span class="string">&quot;1.0&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dict</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">key</span>&gt;</span>streams<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">array</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">dict</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">key</span>&gt;</span>dataPort<span class="tag">&lt;/<span class="name">key</span>&gt;</span> <span class="comment">&lt;!--接收音频数据的接口 --&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">integer</span>&gt;</span>34505<span class="tag">&lt;/<span class="name">integer</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">key</span>&gt;</span>controlPort<span class="tag">&lt;/<span class="name">key</span>&gt;</span> <span class="comment">&lt;!--音频重传包会通过这个接口给 --&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">integer</span>&gt;</span>40945<span class="tag">&lt;/<span class="name">integer</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">key</span>&gt;</span>type<span class="tag">&lt;/<span class="name">key</span>&gt;</span> <span class="comment">&lt;!--数据类型--&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">integer</span>&gt;</span>96<span class="tag">&lt;/<span class="name">integer</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">dict</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">array</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dict</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">plist</span>&gt;</span></span><br></pre></td></tr></table></div></figure>
+<p>服务端响应此请求后，客户端会开始向dataPort端口发送音频数据，在后面会介绍</p>
+
+        <h1 id="音视频数据流"   >
+          <a href="#音视频数据流" class="heading-link"><i class="fas fa-link"></i></a><a href="#音视频数据流" class="headerlink" title="音视频数据流"></a>音视频数据流</h1>
+      
+        <h2 id="视频"   >
+          <a href="#视频" class="heading-link"><i class="fas fa-link"></i></a><a href="#视频" class="headerlink" title="视频"></a>视频</h2>
+      <p>视频流为加密内容，需要首先进行解密然后才能使用。解密步骤为<br>1.解密AES密钥，用到fpsetup（CSeq=5）接收到的keymessage。此加密算法为Apple 私有算法非常复杂，请参阅demo中playfair文件夹中的内容。<br>2.将解密的desryAesKey和pairing阶段计算出的curve25519 共享密钥进行hash得到eaesHash,方法同pair阶段<br>3.使用eaesHash前16个字节与（“AirPlayStreamKey”+setup阶段获得的streamConnectionId）构成的字符串hash方法同上。得到keyHash<br>4.同样方法与“AirPlayStreamIv”+streamConnectionId hash得到ivHash<br>5.取keyHash和IVhash的前16字节作为key和iv执行aes-ctr-128 解密视频流，视频流是avcc格式的H264裸流</p>
+
+        <h2 id="音频"   >
+          <a href="#音频" class="heading-link"><i class="fas fa-link"></i></a><a href="#音频" class="headerlink" title="音频"></a>音频</h2>
+      <p>1.使用视频阶段解密的AESkey（如果没解密这里要做解密）与之前的ecdhShared进行sha512哈希，取前16位做aes的key，使用第一次SETUP阶段收到的eiv作为IV进行AES-CBC-128解密，注意这里是CBC模式。解密后得到AAC裸流。</p>
+
+        <h1 id="其他请求"   >
+          <a href="#其他请求" class="heading-link"><i class="fas fa-link"></i></a><a href="#其他请求" class="headerlink" title="其他请求"></a>其他请求</h1>
+      <p>这些请求会在RTSP阶段发送</p>
+
+        <h2 id="TEARDOWN"   >
+          <a href="#TEARDOWN" class="heading-link"><i class="fas fa-link"></i></a><a href="#TEARDOWN" class="headerlink" title="TEARDOWN"></a>TEARDOWN</h2>
+      <p>客户端发送关闭请求，服务端需要根据给定type值关闭指定服务。具体业务逻辑可自行设定</p>
+
+        <h2 id="SET-PARAMETER"   >
+          <a href="#SET-PARAMETER" class="heading-link"><i class="fas fa-link"></i></a><a href="#SET-PARAMETER" class="headerlink" title="SET PARAMETER"></a>SET PARAMETER</h2>
+      <p>客户端在想要更改接收器的音量级别时进行此调用。<br>该请求的响应必须是没有正文的 200 OK。</p>
+
+        <h1 id="补充说明"   >
+          <a href="#补充说明" class="heading-link"><i class="fas fa-link"></i></a><a href="#补充说明" class="headerlink" title="补充说明"></a>补充说明</h1>
+      
+        <h2 id="Timing-Port"   >
+          <a href="#Timing-Port" class="heading-link"><i class="fas fa-link"></i></a><a href="#Timing-Port" class="headerlink" title="Timing Port"></a>Timing Port</h2>
+      <p>SETUP阶段设定的对时端口会进行NTP对时通信，使用标准NTP协议，不过多介绍</p>
+
+        <h2 id="Control-Port"   >
+          <a href="#Control-Port" class="heading-link"><i class="fas fa-link"></i></a><a href="#Control-Port" class="headerlink" title="Control Port"></a>Control Port</h2>
+      <p>客户端会发送两个可能的值，84和86<br>84可以忽略。86是重传的音频数据码，包中会包含音频包</p>
+
+        <h1 id="demo地址"   >
+          <a href="#demo地址" class="heading-link"><i class="fas fa-link"></i></a><a href="#demo地址" class="headerlink" title="demo地址"></a>demo地址</h1>
+      <p>go实现是本项目的demo，其他两个为参考，其中C实现相对全但是比较复杂。C#更好懂。<br><span class="exturl"><a class="exturl__link"   target="_blank" rel="noopener" href="https://github.com/jokerping/AirPlay-Mirroring" >go实现</a><span class="exturl__icon"><i class="fas fa-external-link-alt"></i></span></span><br><span class="exturl"><a class="exturl__link"   target="_blank" rel="noopener" href="https://github.com/FDH2/UxPlay" >C实现</a><span class="exturl__icon"><i class="fas fa-external-link-alt"></i></span></span><br><span class="exturl"><a class="exturl__link"   target="_blank" rel="noopener" href="https://github.com/SteeBono/airplayreceiver" >C#实现</a><span class="exturl__icon"><i class="fas fa-external-link-alt"></i></span></span></p>
+
+        <h1 id="参考文献"   >
+          <a href="#参考文献" class="heading-link"><i class="fas fa-link"></i></a><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h1>
+      <p><span class="exturl"><a class="exturl__link"   target="_blank" rel="noopener" href="https://openairplay.github.io/airplay-spec/service_discovery.html" >旧一点，很多内容失效，但是字段有参考价值</a><span class="exturl__icon"><i class="fas fa-external-link-alt"></i></span></span><br><span class="exturl"><a class="exturl__link"   target="_blank" rel="noopener" href="https://nto.github.io/AirPlay.html" >更旧，仅字段有参考价值</a><span class="exturl__icon"><i class="fas fa-external-link-alt"></i></span></span><br><span class="exturl"><a class="exturl__link"   target="_blank" rel="noopener" href="https://www.itread01.com/hkeyxif.html" >本文主要参考</a><span class="exturl__icon"><i class="fas fa-external-link-alt"></i></span></span></p>
+</div><footer class="post-footer"><div class="post-ending ending"><div class="ending__text">------ 本文结束，感谢您的阅读 ------</div></div><div class="post-copyright copyright"><div class="copyright-author"><span class="copyright-author__name">本文作者: </span><span class="copyright-author__value"><a href="https://wzp.ink">joker</a></span></div><div class="copyright-link"><span class="copyright-link__name">本文链接: </span><span class="copyright-link__value"><a href="https://wzp.ink/2022/08/03/airplay%E6%8E%A5%E6%94%B6%E7%AB%AF%E5%BC%80%E5%8F%91/">https://wzp.ink/2022/08/03/airplay%E6%8E%A5%E6%94%B6%E7%AB%AF%E5%BC%80%E5%8F%91/</a></span></div><div class="copyright-notice"><span class="copyright-notice__name">版权声明: </span><span class="copyright-notice__value">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" rel="external nofollow" target="_blank">BY-NC-SA</a> 许可协议。转载请注明出处！</span></div></div><div class="post-tags"><span class="post-tags-item"><span class="post-tags-item__icon"><i class="fas fa-tag"></i></span><a class="post-tags-item__link" href="https://wzp.ink/tags/go/">go</a></span><span class="post-tags-item"><span class="post-tags-item__icon"><i class="fas fa-tag"></i></span><a class="post-tags-item__link" href="https://wzp.ink/tags/iOS/">iOS</a></span></div><nav class="post-paginator paginator"><div class="paginator-next"><a class="paginator-next__link" href="/2022/01/17/weightLoss/"><span class="paginator-prev__text">减肥</span><span class="paginator-next__icon"><i class="fas fa-angle-right"></i></span></a></div></nav></footer></div></div><div class="comments" id="comments"><div id="disqus_thread"></div></div></div><div class="sidebar-wrap" id="sidebar-wrap"><aside class="sidebar" id="sidebar"><div class="sidebar-nav"><span class="sidebar-nav-toc current">文章目录</span><span class="sidebar-nav-ov">站点概览</span></div><section class="sidebar-toc"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#abstract"><span class="toc-number">1.</span> <span class="toc-text">
+          abstract</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%95%B4%E4%BD%93%E6%B5%81%E7%A8%8B"><span class="toc-number">2.</span> <span class="toc-text">
+          整体流程</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0"><span class="toc-number">3.</span> <span class="toc-text">
+          服务发现</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#raop-tcp-local"><span class="toc-number">3.1.</span> <span class="toc-text">
+          _raop._tcp.local</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#airplay-tcp-local"><span class="toc-number">3.2.</span> <span class="toc-text">
+          _airplay._tcp.local</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#RTSP%E9%98%B6%E6%AE%B5"><span class="toc-number">4.</span> <span class="toc-text">
+          RTSP阶段</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#GET-info"><span class="toc-number">4.1.</span> <span class="toc-text">
+          GET &#x2F;info</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#POST-pair-setup"><span class="toc-number">4.2.</span> <span class="toc-text">
+          POST &#x2F;pair-setup</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#POST-pair-verify"><span class="toc-number">4.3.</span> <span class="toc-text">
+          POST &#x2F;pair-verify</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#POST-fp-setup"><span class="toc-number">4.4.</span> <span class="toc-text">
+          POST &#x2F;fp-setup</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SETUP"><span class="toc-number">4.5.</span> <span class="toc-text">
+          SETUP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#GET-PARAMETER"><span class="toc-number">4.6.</span> <span class="toc-text">
+          GET_PARAMETER</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#RECORD"><span class="toc-number">4.7.</span> <span class="toc-text">
+          RECORD</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SETUP-1"><span class="toc-number">4.8.</span> <span class="toc-text">
+          SETUP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#POST-feedback"><span class="toc-number">4.9.</span> <span class="toc-text">
+          POST &#x2F;feedback</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SETUP-2"><span class="toc-number">4.10.</span> <span class="toc-text">
+          SETUP</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E9%9F%B3%E8%A7%86%E9%A2%91%E6%95%B0%E6%8D%AE%E6%B5%81"><span class="toc-number">5.</span> <span class="toc-text">
+          音视频数据流</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%A7%86%E9%A2%91"><span class="toc-number">5.1.</span> <span class="toc-text">
+          视频</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%9F%B3%E9%A2%91"><span class="toc-number">5.2.</span> <span class="toc-text">
+          音频</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%85%B6%E4%BB%96%E8%AF%B7%E6%B1%82"><span class="toc-number">6.</span> <span class="toc-text">
+          其他请求</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#TEARDOWN"><span class="toc-number">6.1.</span> <span class="toc-text">
+          TEARDOWN</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SET-PARAMETER"><span class="toc-number">6.2.</span> <span class="toc-text">
+          SET PARAMETER</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%A1%A5%E5%85%85%E8%AF%B4%E6%98%8E"><span class="toc-number">7.</span> <span class="toc-text">
+          补充说明</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Timing-Port"><span class="toc-number">7.1.</span> <span class="toc-text">
+          Timing Port</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Control-Port"><span class="toc-number">7.2.</span> <span class="toc-text">
+          Control Port</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#demo%E5%9C%B0%E5%9D%80"><span class="toc-number">8.</span> <span class="toc-text">
+          demo地址</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE"><span class="toc-number">9.</span> <span class="toc-text">
+          参考文献</span></a></li></ol></section><!-- ov = overview--><section class="sidebar-ov hide"><div class="sidebar-ov-author"><div class="sidebar-ov-author__avatar"><img class="sidebar-ov-author__avatar_img" src="/uploads/userHeadr.JPG" alt="avatar"></div></div><div class="sidebar-ov-social"><a class="sidebar-ov-social-item" href="https://github.com/jokerping" target="_blank" rel="noopener" data-popover="Github" data-popover-pos="up"><span class="sidebar-ov-social-item__icon"><i class="fab fa-github"></i></span></a></div><div class="sidebar-ov-state"><a class="sidebar-ov-state-item sidebar-ov-state-item--posts" href="/archives/"><div class="sidebar-ov-state-item__count">4</div><div class="sidebar-ov-state-item__name">归档</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--categories" href="/categories/"><div class="sidebar-ov-state-item__count">2</div><div class="sidebar-ov-state-item__name">分类</div></a><a class="sidebar-ov-state-item sidebar-ov-state-item--tags" href="/tags/"><div class="sidebar-ov-state-item__count">4</div><div class="sidebar-ov-state-item__name">标签</div></a></div><div class="sidebar-ov-cc"><a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.en" target="_blank" rel="noopener" data-popover="知识共享许可协议" data-popover-pos="up"><img src="/images/cc-by-nc-sa.svg"></a></div></section><div class="sidebar-reading"><div class="sidebar-reading-info"><span class="sidebar-reading-info__text">你已阅读了 </span><span class="sidebar-reading-info__num">0</span><span class="sidebar-reading-info__perc">%</span></div><div class="sidebar-reading-line"></div></div></aside></div><div class="clearfix"></div></div></main><footer class="footer" id="footer"><div class="footer-inner"><div><span>Copyright © 2021~2022</span><span class="footer__icon"><i class="fas fa-heart"></i></span><span>joker</span><span class="footer__devider">|</span><span>京ICP备2021018553号-2</span></div></div></footer><div class="loading-bar" id="loading-bar"><div class="loading-bar__progress"></div></div><div class="back2top" id="back2top"><span class="back2top__icon"><i class="fas fa-rocket"></i></span></div></div><div class="search-mask"></div><div class="search-popup"><span class="search-close"></span><div class="search-input"><input placeholder="搜索文章（支持多关键词，请用空格分隔）"><div class="search-btns">使用搜索：<span class="search-btns-item search-btns-item--google"><i class="fab fa-google"></i>谷歌</span><span class="search-btns-item search-btns-item--bing"><i></i>必应</span><span class="search-btns-item search-btns-item--baidu"><i></i>百度</span></div></div><div class="search-results"></div></div><script src="https://cdn.jsdelivr.net/npm/jquery@v3.4.1/dist/jquery.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.min.js"></script><script src="https://cdn.jsdelivr.net/npm/velocity-animate@1.5.2/velocity.ui.min.js"></script><script src="https://cdn.jsdelivr.net/npm/ribbon.js@latest/dist/ribbon.min.js" size="200" alpha="0.6" zIndex="-1"></script><script src="https://cdn.jsdelivr.net/npm/canvas-nest.js@1.0.1/dist/canvas-nest.min.js" color="0,0,0" opacity="0.6" count="99" zIndex="-1"></script><script src="https://cdn.jsdelivr.net/npm/lazyload@2.0.0-rc.2/lazyload.min.js"></script><script>function initSearch() {
+  var isXML = true;
+  var search_path = 'search.json';
+
+  if (!search_path) {
+    search_path = 'search.xml';
+  } else if (/json$/i.test(search_path)) {
+    isXML = false;
+  }
+
+  var path = '/' + search_path;
+  $.ajax({
+    url: path,
+    dataType: isXML ? 'xml' : 'json',
+    async: true,
+    success: function (res) {
+      var datas = isXML ? $('entry', res).map(function () {
+        // 将 XML 转为 JSON
+        return {
+          title: $('title', this).text(),
+          content: $('content', this).text(),
+          url: $('url', this).text()
+        };
+      }).get() : res;
+      var $input = $('.search-input input');
+      var $result = $('.search-results');
+      // 搜索对象（标题、内容）的权重，影响显示顺序
+      var WEIGHT = { title: 100, content: 1 };
+      var searchPost = function () {
+        var searchText = $input.val().toLowerCase().trim();
+        // 根据空白字符分隔关键字
+        var keywords = searchText.split(/[\s]+/);
+        // 搜索结果
+        var matchPosts = [];
+
+        // 有多个关键字时，将原文字整个保存下来
+        if (keywords.length > 1) {
+          keywords.push(searchText);
+        }
+        // 防止未输入字符时搜索
+        if (searchText.length > 0) {
+          datas.forEach(function (data) {
+            var isMatch  = false;
+            // 没有标题的文章使用预设的 i18n 变量代替
+            var title = (data.title && data.title.trim()) || '[ 文章无标题 ]';
+            var titleLower = title && title.toLowerCase();
+            // 删除 HTML 标签 和 所有空白字符
+            var content = data.content && data.content.replace(/<[^>]+>/g, '');
+            var contentLower = content && content.toLowerCase();
+            // 删除重复的 /
+            var postURL = data.url && decodeURI(data.url).replace(/\/{2,}/g, '/');
+            // 标题中匹配到的关键词
+            var titleHitSlice = [];
+            // 内容中匹配到的关键词
+            var contentHitSlice = [];
+
+            keywords.forEach(function (keyword) {
+              /**
+              * 获取匹配的关键词的索引
+              * @param {String} keyword 要匹配的关键字
+              * @param {String} text 原文字
+              * @param {Boolean} caseSensitive 是否区分大小写
+              * @param {Number} weight 匹配对象的权重。权重大的优先显示
+              * @return {Array}
+              */
+              function getIndexByword (word, text, caseSensitive, weight) {
+                if (!word || !text) {
+                  return [];
+                };
+
+                var startIndex = 0; // 每次匹配的开始索引
+                var index = -1;     // 匹配到的索引值
+                var result = [];    // 匹配结果
+
+                if (!caseSensitive) {
+                  word = word.toLowerCase();
+                  text = text.toLowerCase();
+                }
+
+                while((index = text.indexOf(word, startIndex)) !== -1) {
+                  var hasMatch = false;
+                  // 索引位置相同的关键词，保留长度较长的
+                  titleHitSlice.forEach(function (hit) {
+                    if (hit.index === index && hit.word.length < word.length) {
+                      hit.word = word;
+                      hasMatch = true;
+                    }
+                  });
+                  startIndex = index + word.length;
+                  !hasMatch && result.push({ index: index, word: word, weight: weight });
+                }
+                return result;
+              }
+              titleHitSlice = titleHitSlice.concat(getIndexByword(keyword, titleLower, false, WEIGHT.title));
+              contentHitSlice = contentHitSlice.concat(getIndexByword(keyword, contentLower, false, WEIGHT.content));
+            });
+
+            var hitTitle = titleHitSlice.length;
+            var hitContent = contentHitSlice.length;
+
+            if (hitTitle > 0 || hitContent > 0) {
+              isMatch = true;
+            }
+            if (isMatch) {
+              ;[titleHitSlice, contentHitSlice].forEach(function (hit) {
+                // 按照匹配文字的索引的递增顺序排序
+                hit.sort(function (left, right) {
+                  return left.index - right.index;
+                });
+              });
+              /**
+              * 给文本中匹配到的关键词添加标记，从而进行高亮显示
+              * @param {String} text 原文本
+              * @param {Array} hitSlice 匹配项的索引信息
+              * @param {Number} start 开始索引
+              * @param {Number} end 结束索引
+              * @return {String}
+              */
+              function highlightKeyword (text, hitSlice, start, end) {
+                if (!text || !hitSlice || !hitSlice.length) {
+                  return;
+                }
+
+                var result = '';
+                var startIndex = start;
+                var endIndex = end;
+                hitSlice.forEach(function (hit) {
+                  if (hit.index < startIndex) {
+                    return;
+                  }
+
+                  var hitWordEnd = hit.index + hit.word.length;
+                  result += text.slice(startIndex, hit.index);
+                  result += '<b>' + text.slice(hit.index, hitWordEnd) + '</b>';
+                  startIndex = hitWordEnd;
+                });
+                result += text.slice(startIndex, endIndex);
+                return result;
+              }
+
+              var postData = {};
+              // 文章总的搜索权重
+              var postWeight = titleHitSlice.length * WEIGHT.title + contentHitSlice.length * WEIGHT.content;
+              // 标记匹配关键词后的标题
+              var postTitle = highlightKeyword(title, titleHitSlice, 0, title.length) || title;
+              // 标记匹配关键词后的内容
+              var postContent;
+              // 显示内容的长度
+              var SHOW_WORD_LENGTH = 200;
+              // 命中关键词前的字符显示长度
+              var SHOW_WORD_FRONT_LENGTH = 20;
+              var SHOW_WORD_END_LENGTH = SHOW_WORD_LENGTH - SHOW_WORD_FRONT_LENGTH;
+
+              // 截取匹配的第一个字符，前后共 200 个字符来显示
+              if (contentHitSlice.length > 0) {
+                var firstIndex = contentHitSlice[0].index;
+                var start = firstIndex > SHOW_WORD_FRONT_LENGTH ? firstIndex - SHOW_WORD_FRONT_LENGTH : 0;
+                var end = firstIndex + SHOW_WORD_END_LENGTH;
+                postContent = highlightKeyword(content, contentHitSlice, start, end);
+              } else { // 未匹配到内容，直接截取前 200 个字符来显示
+                postContent = content.slice(0, SHOW_WORD_LENGTH);
+              }
+              postData.title = postTitle;
+              postData.content = postContent;
+              postData.url = postURL;
+              postData.weight = postWeight;
+              matchPosts.push(postData);
+            }
+          });
+        }
+
+        var resultInnerHtml = '';
+        if (matchPosts.length) {
+          // 按权重递增的顺序排序，使权重大的优先显示
+          matchPosts.sort(function (left, right) {
+            return right.weight - left.weight;
+          });
+          resultInnerHtml += '<ul>';
+          matchPosts.forEach(function (post) {
+            resultInnerHtml += '<li><a class="search-results-title" href="' + post.url + '">';
+            resultInnerHtml += post.title;
+            resultInnerHtml += '</a><div class="search-results-content">';
+            resultInnerHtml += post.content;
+            resultInnerHtml += '</div></li>';
+          });
+          resultInnerHtml += '</ul>';
+        } else {
+          resultInnerHtml += '<div class="search-results-none"><i class="far fa-meh"></i></div>';
+        }
+        $result.html(resultInnerHtml);
+      };
+      $input.on('input', searchPost);
+      $input.on('keyup', function (e) {
+        if (e.keyCode === Stun.utils.codeToKeyCode('Enter')) {
+          searchPost();
+        }
+      });
+    }
+  });
+}
+
+function closeSearch () {
+  $('body').css({ overflow: 'auto' });
+  $('.search-popup').css({ display: 'none' });
+  $('.search-mask').css({ display: 'none' });
+}
+
+window.addEventListener('DOMContentLoaded', function () {
+  Stun.utils.pjaxReloadLocalSearch = function () {
+    $('.header-nav-search').on('click', function (e) {
+      e.stopPropagation();
+      $('body').css('overflow', 'hidden');
+      $('.search-popup')
+        .velocity('stop')
+        .velocity('transition.expandIn', {
+          duration: 300,
+          complete: function () {
+            $('.search-popup input').focus();
+          }
+        });
+      $('.search-mask')
+        .velocity('stop')
+        .velocity('transition.fadeIn', {
+          duration: 300
+        });
+
+      initSearch();
+    });
+    $('.search-mask, .search-close').on('click', function () {
+      closeSearch();
+    });
+    $(document).on('keydown', function (e) {
+      // Escape <=> 27
+      if (e.keyCode === Stun.utils.codeToKeyCode('Escape')) {
+        closeSearch();
+      }
+    });
+  };
+
+  Stun.utils.pjaxReloadLocalSearch();
+}, false);
+
+function safeOpenUrl(url) {
+  var newTab = window.open();
+  newTab.opener = null;
+  newTab.location = url;
+}
+
+function extSearch(engine) {
+  var engines = {
+    google: 'https://www.google.com/search?q=',
+    bing: 'https://cn.bing.com/search?q=',
+    baidu: 'https://www.baidu.com/s?ie=UTF-8&wd=',
+  };
+  var host = window.location.host;
+  var query = $('.search-input input').val().toLowerCase().trim();
+  var uri = engines[engine] + query + ' site:' + host;
+
+  if (query) {
+    safeOpenUrl(uri);
+  } else {
+    Stun.utils.popAlert('warning', '请输入字符');
+  }
+}
+
+var assistSearchList = window.CONFIG.assistSearch;
+
+if (Array.isArray(assistSearchList)) {
+  assistSearchList.forEach(function (name) {
+    document.querySelector('.search-btns-item--' + name).addEventListener('click', function () {
+      extSearch(name);
+    }, false);
+  });
+}</script><script src="https://cdn.jsdelivr.net/npm/pjax@latest/pjax.min.js"></script><script>window.addEventListener('DOMContentLoaded', function () {
+  var pjax = new Pjax({"selectors":["head title","#main",".pjax-reload"],"history":true,"scrollTo":false,"scrollRestoration":false,"cacheBust":false,"debug":false,"currentUrlFullReload":false,"timeout":0});
+  // 加载进度条的计时器
+  var loadingTimer = null;
+
+  // 重置页面 Y 方向上的滚动偏移量
+  document.addEventListener('pjax:send', function () {
+    $('.header-nav-menu').removeClass('show');
+    if (CONFIG.pjax && CONFIG.pjax.avoidBanner) {
+      $('html').velocity('scroll', {
+        duration: 500,
+        offset: $('#header').height(),
+        easing: 'easeInOutCubic'
+      });
+    }
+
+    var loadingBarWidth = 20;
+    var MAX_LOADING_WIDTH = 95;
+
+    $('.loading-bar').addClass('loading');
+    $('.loading-bar__progress').css('width', loadingBarWidth + '%');
+    clearInterval(loadingTimer);
+    loadingTimer = setInterval(function () {
+      loadingBarWidth += 3;
+      if (loadingBarWidth > MAX_LOADING_WIDTH) {
+        loadingBarWidth = MAX_LOADING_WIDTH;
+      }
+      $('.loading-bar__progress').css('width', loadingBarWidth + '%');
+    }, 500);
+  }, false);
+
+  window.addEventListener('pjax:complete', function () {
+    clearInterval(loadingTimer);
+    $('.loading-bar__progress').css('width', '100%');
+    $('.loading-bar').removeClass('loading');
+    setTimeout(function () {
+      $('.loading-bar__progress').css('width', '0');
+    }, 400);
+    $('link[rel=prefetch], script[data-pjax-rm]').each(function () {
+      $(this).remove();
+    });
+    $('script[data-pjax], #pjax-reload script').each(function () {
+      $(this).parent().append($(this).remove());
+    });
+
+    if (Stun.utils.pjaxReloadBoot) {
+      Stun.utils.pjaxReloadBoot();
+    }
+    if (Stun.utils.pjaxReloadScroll) {
+      Stun.utils.pjaxReloadScroll();
+    }
+    if (Stun.utils.pjaxReloadSidebar) {
+      Stun.utils.pjaxReloadSidebar();
+    }
+    if (false) {
+      if (Stun.utils.pjaxReloadHeader) {
+        Stun.utils.pjaxReloadHeader();
+      }
+      if (Stun.utils.pjaxReloadScrollIcon) {
+        Stun.utils.pjaxReloadScrollIcon();
+      }
+      if (Stun.utils.pjaxReloadLocalSearch) {
+        Stun.utils.pjaxReloadLocalSearch();
+      }
+    }
+  }, false);
+}, false);</script><div id="pjax-reload"><script src="https://cdn.jsdelivr.net/npm/quicklink@1.0.1/dist/quicklink.umd.js"></script><script>function initQuicklink() {
+  quicklink({
+    timeout: '10000',
+    priority: true,
+    ignores: [uri => uri.includes('#'), uri => uri === 'https://wzp.ink/2022/08/03/airplay%E6%8E%A5%E6%94%B6%E7%AB%AF%E5%BC%80%E5%8F%91/', /\/api\/?/,uri => uri.includes('.xml'),uri => uri.includes('.zip'),(uri, el) => el.hasAttribute('nofollow'),(uri, el) => el.hasAttribute('noprefetch')]
+  });
+}
+
+if (true || false) {
+  initQuicklink();
+} else {
+  window.addEventListener('DOMContentLoaded', initQuicklink, false);
+}</script></div><script data-pjax="">function loadDisqus () {
+  if (!document.getElementById('disqus_thread')) {
+    return;
+  }
+  if (window.DISQUS) {
+    DISQUS.reset({
+      reload: true,
+      config: function () {
+        this.page.url = 'https://wzp.ink/2022/08/03/airplay%E6%8E%A5%E6%94%B6%E7%AB%AF%E5%BC%80%E5%8F%91/';
+        this.page.identifier = '2022/08/03/airplay接收端开发/';
+        this.page.title = 'airplay屏幕镜像接收端开发';
+      }
+    });
+  } else {
+    var d = document;
+    var sc = d.createElement('script');
+    var se = d.createElement('script');
+
+    if (true) {
+      sc.src = 'https://huan-xiang-xiang.disqus.com/count.js';
+      sc.id = 'dsq-count-scr';
+      sc.async = true;
+      if (true) {
+        sc.setAttribute('data-pjax', '');
+      }
+      (d.head || d.body).appendChild(sc);
+    }
+    se.src = 'https://huan-xiang-xiang.disqus.com/embed.js';
+    (d.head || d.body).appendChild(se);
+  }
+}
+
+if (true) {
+  loadDisqus();
+} else {
+  window.addEventListener('DOMContentLoaded', loadDisqus, false);
+}</script><script src="/js/utils.js?v=2.6.2"></script><script src="/js/stun-boot.js?v=2.6.2"></script><script src="/js/scroll.js?v=2.6.2"></script><script src="/js/header.js?v=2.6.2"></script><script src="/js/sidebar.js?v=2.6.2"></script><script type="application/json" src="/search.json"></script></body></html>
