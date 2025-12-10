@@ -1,0 +1,1533 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>王志平 - 资深iOS开发工程师</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #4f46e5;
+            --light: #f8fafc;
+            --dark: #0f172a;
+            --gray: #64748b;
+            --light-gray: #e2e8f0;
+            --accent: #ec4899;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --border-radius: 12px;
+            --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.08);
+            --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 40px rgba(0, 0, 0, 0.12);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #334155;
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .resume-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            background: white;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .resume-container:hover {
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.4);
+            transform: translateY(-2px);
+        }
+
+        /* Header Styles */
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 3rem 3rem 2.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: "";
+            position: absolute;
+            top: -100px;
+            right: -100px;
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.08);
+            animation: pulse 8s ease-in-out infinite;
+        }
+
+        .header::after {
+            content: "";
+            position: absolute;
+            bottom: -150px;
+            left: -150px;
+            width: 500px;
+            height: 500px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.05);
+            animation: pulse 10s ease-in-out infinite reverse;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                transform: scale(1);
+                opacity: 0.8;
+            }
+            50% {
+                transform: scale(1.1);
+                opacity: 0.5;
+            }
+        }
+
+        .name-title {
+            position: relative;
+            z-index: 2;
+        }
+
+        .name {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.5px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 500;
+            opacity: 0.95;
+            margin-bottom: 1.5rem;
+            letter-spacing: 0.5px;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-top: 1rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .experience-badge {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(20px);
+            border-radius: 50px;
+            padding: 0.75rem 1.5rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: 600;
+            margin-top: 1.25rem;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s ease;
+        }
+
+        .experience-badge:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Main Content */
+        .content {
+            display: grid;
+            grid-template-columns: 1fr 380px;
+            gap: 3rem;
+            padding: 3rem;
+            background: #ffffff;
+        }
+
+        .left-column {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .section {
+            margin-bottom: 1.5rem;
+        }
+
+        .section-title {
+            font-family: 'Montserrat', sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            color: var(--dark);
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 3px solid transparent;
+            background: linear-gradient(to right, var(--primary) 0%, var(--secondary) 100%) left bottom no-repeat;
+            background-size: 60px 3px;
+            letter-spacing: -0.3px;
+        }
+
+        .section-title i {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+        }
+
+        /* Summary Section */
+        .summary {
+            line-height: 1.8;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            padding: 1.75rem;
+            border-radius: 12px;
+            border-left: 5px solid var(--primary);
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s ease;
+        }
+
+        .summary:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateX(4px);
+        }
+
+        .summary p {
+            margin-bottom: 1rem;
+        }
+
+        .summary p:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Skills Section */
+        .skills-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 1rem;
+        }
+
+        .skill-category {
+            margin-bottom: 1.25rem;
+        }
+
+        .skill-category h4 {
+            color: var(--dark);
+            margin-bottom: 0.75rem;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .skills-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .skill-item {
+            background: #f8fafc;
+            padding: 0.6rem 1.1rem;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            border: 2px solid var(--light-gray);
+            transition: all 0.2s ease;
+            cursor: default;
+        }
+
+        .skill-item:hover {
+            border-color: var(--primary);
+            background: #f0f9ff;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(37, 99, 235, 0.15);
+        }
+
+        .skill-item.highlight {
+            background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+            color: var(--primary-dark);
+            border-color: var(--primary);
+            font-weight: 600;
+            box-shadow: 0 2px 8px rgba(37, 99, 235, 0.2);
+        }
+
+        .skill-item.highlight:hover {
+            background: linear-gradient(135deg, #bfdbfe 0%, #93c5fd 100%);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+        }
+
+        /* Experience Section */
+        .experience-item {
+            margin-bottom: 1.75rem;
+            position: relative;
+        }
+
+        .company {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .company-name {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--dark);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .company-name::before {
+            content: "";
+            width: 8px;
+            height: 8px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            box-shadow: 0 2px 6px rgba(37, 99, 235, 0.4);
+        }
+
+        .company-time {
+            color: var(--gray);
+            font-size: 0.95rem;
+        }
+
+        .job-title {
+            color: var(--primary);
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .job-description {
+            margin-left: 1.5rem;
+            position: relative;
+        }
+
+        .job-description::before {
+            content: "";
+            position: absolute;
+            left: -15px;
+            top: 10px;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--light-gray);
+        }
+
+        .project {
+            background: linear-gradient(to right, #fafafa 0%, #f8fafc 100%);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-top: 1rem;
+            border-left: 4px solid var(--primary);
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .project::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--primary), var(--secondary));
+            transition: width 0.3s ease;
+        }
+
+        .project:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateX(4px);
+        }
+
+        .project:hover::before {
+            width: 6px;
+        }
+
+        .project-title {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.75rem;
+        }
+
+        .project-name {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 1.05rem;
+            color: var(--dark);
+            position: relative;
+            z-index: 1;
+        }
+
+        .project-tech {
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .achievement {
+            display: flex;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .achievement i {
+            color: var(--primary);
+            margin-top: 4px;
+        }
+
+        .achievement-content {
+            flex: 1;
+        }
+
+        .metric {
+            display: inline-block;
+            background: #e0f2fe;
+            color: #0369a1;
+            padding: 0.25rem 0.75rem;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            margin: 0.25rem 0;
+        }
+
+        .tech-tag {
+            display: inline-block;
+            background: linear-gradient(135deg, #ede9fe 0%, #ddd6fe 100%);
+            color: #6d28d9;
+            padding: 0.4rem 0.9rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            margin: 0.25rem 0.25rem;
+            border: 2px solid #c4b5fd;
+            transition: all 0.2s ease;
+            cursor: default;
+        }
+
+        .tech-tag:hover {
+            background: linear-gradient(135deg, #ddd6fe 0%, #c4b5fd 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(109, 40, 217, 0.2);
+        }
+
+        /* Education */
+        .education-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem;
+            border-bottom: 1px dashed var(--light-gray);
+            transition: all 0.3s ease;
+            border-radius: 8px;
+        }
+
+        .education-item:hover {
+            background: #f8fafc;
+            border-bottom-color: var(--primary);
+            transform: translateX(4px);
+        }
+
+        .education-item:last-child {
+            border-bottom: none;
+        }
+
+        .education-details {
+            flex: 1;
+        }
+
+        .school {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+            font-size: 1.05rem;
+            margin-bottom: 0.35rem;
+            color: var(--dark);
+        }
+
+        .degree {
+            color: var(--gray);
+            font-size: 0.95rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .content {
+                grid-template-columns: 1fr;
+                padding: 2rem;
+                gap: 2rem;
+            }
+
+            .name {
+                font-size: 2.5rem;
+            }
+
+            .title {
+                font-size: 1.3rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            .resume-container {
+                margin: 1rem auto;
+            }
+
+            .header {
+                padding: 2rem 1.5rem;
+            }
+
+            .name {
+                font-size: 2rem;
+            }
+
+            .title {
+                font-size: 1.2rem;
+            }
+
+            .contact-info {
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+
+            .content {
+                padding: 1.5rem;
+                gap: 1.5rem;
+            }
+
+            .section-title {
+                font-size: 1.3rem;
+            }
+
+            .skills-container {
+                grid-template-columns: 1fr;
+            }
+
+            .experience-badge {
+                padding: 0.6rem 1.2rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .name {
+                font-size: 1.75rem;
+            }
+
+            .title {
+                font-size: 1.1rem;
+            }
+
+            .header {
+                padding: 1.5rem 1rem;
+            }
+
+            .content {
+                padding: 1rem;
+            }
+
+            .section-title {
+                font-size: 1.2rem;
+            }
+
+            .section-title i {
+                width: 36px;
+                height: 36px;
+            }
+        }
+
+        /* Animation */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section {
+            animation: fadeIn 0.6s ease-out forwards;
+        }
+
+        .section:nth-child(2) {
+            animation-delay: 0.1s;
+        }
+
+        .section:nth-child(3) {
+            animation-delay: 0.2s;
+        }
+
+        .section:nth-child(4) {
+            animation-delay: 0.3s;
+        }
+
+        .section:nth-child(5) {
+            animation-delay: 0.4s;
+        }
+
+        .highlight-text {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .achievement-icon {
+            min-width: 24px;
+            text-align: center;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 20px;
+            border-left: 2px solid var(--light-gray);
+        }
+
+        .timeline-item {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .timeline-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .timeline-item::before {
+            content: "";
+            position: absolute;
+            left: -26px;
+            top: 8px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--primary);
+            border: 2px solid white;
+            box-shadow: 0 0 0 2px var(--primary);
+        }
+
+        .tech-stack {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0.5rem 0 1rem 0;
+        }
+
+        .company-logo {
+            width: 20px;
+            height: 20px;
+            margin-right: 8px;
+            background: var(--primary);
+            display: inline-block;
+            border-radius: 4px;
+            vertical-align: middle;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: #e2e8f0;
+            border-radius: 50px;
+            margin: 12px 0;
+            overflow: hidden;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .progress {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary) 0%, var(--secondary) 100%);
+            border-radius: 50px;
+            position: relative;
+            transition: width 1s ease-out;
+            box-shadow: 0 2px 6px rgba(37, 99, 235, 0.3);
+        }
+
+        .progress::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg,
+                rgba(255, 255, 255, 0.3) 0%,
+                rgba(255, 255, 255, 0.1) 50%,
+                rgba(255, 255, 255, 0.3) 100%);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% {
+                transform: translateX(-100%);
+            }
+            100% {
+                transform: translateX(100%);
+            }
+        }
+
+        .progress-90 {
+            width: 90%;
+        }
+
+        .progress-85 {
+            width: 85%;
+        }
+
+        .progress-80 {
+            width: 80%;
+        }
+
+        .progress-75 {
+            width: 75%;
+        }
+
+        .progress-50 {
+            width: 50%;
+        }
+
+        .progress-95 {
+            width: 95%;
+        }
+
+        .key-achievement {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            border-radius: 12px;
+            padding: 1.25rem;
+            margin-bottom: 1rem;
+            border-left: 5px solid var(--primary);
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .key-achievement::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, transparent 0%, rgba(37, 99, 235, 0.05) 100%);
+            pointer-events: none;
+        }
+
+        .key-achievement:hover {
+            box-shadow: var(--shadow-md);
+            transform: translateY(-2px);
+            border-left-width: 6px;
+        }
+
+        .key-achievement .metric {
+            background: linear-gradient(135deg, #bae6fd 0%, #7dd3fc 100%);
+            box-shadow: 0 2px 6px rgba(14, 165, 233, 0.2);
+        }
+
+        /* Print Button */
+        .print-button {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(37, 99, 235, 0.4);
+            transition: all 0.3s ease;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .print-button:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 6px 25px rgba(37, 99, 235, 0.6);
+        }
+
+        .print-button:active {
+            transform: translateY(-1px) scale(0.98);
+        }
+
+        @media print {
+            .print-button {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .print-button {
+                width: 50px;
+                height: 50px;
+                font-size: 1.2rem;
+                bottom: 20px;
+                right: 20px;
+            }
+        }
+
+        /* Print Styles - 打印优化 */
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+                margin: 0;
+            }
+
+            .resume-container {
+                max-width: 100%;
+                margin: 0;
+                box-shadow: none;
+                border-radius: 0;
+            }
+
+            .resume-container:hover {
+                box-shadow: none;
+                transform: none;
+            }
+
+            .header {
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+                padding: 2rem;
+                page-break-after: avoid;
+            }
+
+            .header::before,
+            .header::after {
+                display: none;
+            }
+
+            .content {
+                padding: 1.5rem;
+                gap: 2rem;
+            }
+
+            .section {
+                page-break-inside: avoid;
+            }
+
+            .timeline-item {
+                page-break-inside: avoid;
+            }
+
+            .project {
+                page-break-inside: avoid;
+                box-shadow: none;
+                border: 1px solid #e2e8f0;
+            }
+
+            .project:hover {
+                transform: none;
+                box-shadow: none;
+            }
+
+            .summary,
+            .key-achievement {
+                box-shadow: none;
+                border: 1px solid #e2e8f0;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            .summary:hover,
+            .key-achievement:hover {
+                transform: none;
+                box-shadow: none;
+            }
+
+            .skill-item,
+            .tech-tag {
+                border: 1px solid #d1d5db;
+                box-shadow: none;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            .skill-item:hover,
+            .tech-tag:hover {
+                transform: none;
+                box-shadow: none;
+            }
+
+            .experience-badge {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            .experience-badge:hover {
+                transform: none;
+                box-shadow: none;
+            }
+
+            .section-title i {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            /* 确保渐变背景在打印时显示 */
+            .header,
+            .summary,
+            .project,
+            .key-achievement,
+            .skill-item.highlight,
+            .tech-tag,
+            .section-title i {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                color-adjust: exact !important;
+            }
+
+            /* 打印时隐藏动画效果 */
+            * {
+                animation: none !important;
+                transition: none !important;
+            }
+
+            /* 优化分页 */
+            h1, h2, h3 {
+                page-break-after: avoid;
+            }
+
+            /* 确保第一页显示完整信息 */
+            @page {
+                margin: 1cm;
+            }
+
+            @page :first {
+                margin-top: 0.5cm;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="resume-container">
+        <!-- Header Section -->
+        <header class="header">
+            <div class="name-title">
+                <h1 class="name">王志平</h1>
+                <div class="title">资深iOS开发工程师 · 10年经验</div>
+
+                <div class="experience-badge">
+                    <i class="fas fa-medal"></i>
+                    <span>10年iOS开发经验 · 精通高性能应用开发</span>
+                </div>
+            </div>
+
+            <div class="contact-info">
+                <div class="contact-item">
+                    <i class="fas fa-phone"></i>
+                    <span>17610888529</span>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-envelope"></i>
+                    <span>jokewang93@gmail.com</span>
+                </div>
+                <div class="contact-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>北京 · 期望薪资 20-30K</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <div class="content">
+            <!-- Left Column -->
+            <div class="left-column">
+                <!-- Summary -->
+                <section class="section">
+                    <h2 class="section-title">
+                        <i class="fas fa-user"></i>
+                        <span>个人优势与技术亮点</span>
+                    </h2>
+                    <div class="summary">
+                        <p>熟悉iOS开发生态系统，包括编程语言、SDK和最新版本。强大的问题解决能力和调试经验，能够快速识别并解决代码中的问题。</p>
+                        <p>团队协作能力强，具备分享知识和经验的意愿，并帮助其他人解决问题。创新思维，对于新技术和趋势保持敏锐的触觉，并且善于提出创新性的解决方案。</p>
+                        <p>能够管理和有效实施复杂的iOS项目，熟练使用项目管理工具如JIRA和Sonar等。熟悉机器学习领域，熟练使用pytorch进行各种模型调优训练以及集成到iOS。</p>
+                    </div>
+                </section>
+
+                <!-- Experience -->
+                <section class="section">
+                    <h2 class="section-title">
+                        <i class="fas fa-briefcase"></i>
+                        <span>工作经历</span>
+                    </h2>
+
+                    <div class="timeline">
+                        <!-- Experience 1 -->
+                        <div class="timeline-item">
+                            <div class="company">
+                                <div class="company-name">
+                                    <!-- <span class="company-logo"></span> -->
+                                    北京豆神教育科技有限公司
+                                </div>
+                                <div class="company-time">2025.09 - 至今</div>
+                            </div>
+                            <div class="job-title">
+                                <i class="fas fa-laptop-code"></i>
+                                <span>iOS开发工程师</span>
+                            </div>
+                            <div class="tech-stack">
+                                <span class="tech-tag">Swift</span>
+                                <span class="tech-tag">AVFoundation</span>
+                                <span class="tech-tag">WebRTC</span>
+                            </div>
+                            <div class="job-description">
+                                <p>负责豆伴匠App开发，以及豆神直播SDK功能开发</p>
+
+                                <div class="project">
+                                    <div class="project-title">
+                                        <div class="project-name">豆伴匠App</div>
+                                    </div>
+                                    <div class="achievement">
+                                        <div class="achievement-icon"><i class="fas fa-mobile-alt"></i></div>
+                                        <div class="achievement-content">
+                                            <p>负责App整体UI界面开发与维护，实现各类交互动画效果</p>
+                                        </div>
+                                    </div>
+                                    <div class="achievement">
+                                        <div class="achievement-icon"><i class="fas fa-robot"></i></div>
+                                        <div class="achievement-content">
+                                            <p>集成第三方数字人SDK，根据后端大模型下发的指令驱动数字人执行相应动作和表情</p>
+                                        </div>
+                                    </div>
+                                    <div class="achievement">
+                                        <div class="achievement-icon"><i class="fas fa-paint-brush"></i></div>
+                                        <div class="achievement-content">
+                                            <p>实现自适应布局系统，适配多种尺寸设备，优化用户交互体验</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="project">
+                                    <div class="project-title">
+                                        <div class="project-name">豆神直播SDK</div>
+                                    </div>
+                                    <div class="achievement">
+                                        <div class="achievement-icon"><i class="fas fa-video"></i></div>
+                                        <div class="achievement-content">
+                                            <p>负责直播SDK功能开发，包括听课、选座、做题等功能实现</p>
+                                        </div>
+                                    </div>
+                                    <div class="achievement">
+                                        <div class="achievement-icon"><i class="fas fa-cog"></i></div>
+                                        <div class="achievement-content">
+                                            <p>优化视频编码参数，提升直播画质，降低网络带宽消耗</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Experience 2 -->
+                        <div class="timeline-item">
+                            <div class="company">
+                                <div class="company-name">
+                                    <!-- <span class="company-logo"></span> -->
+                                    度小满科技（北京）有限公司
+                                </div>
+                                <div class="company-time">2023.04 - 2025.09</div>
+                            </div>
+                            <div class="job-title">
+                                <i class="fas fa-laptop-code"></i>
+                                <span>iOS高级开发工程师（外包岗）</span>
+                            </div>
+                            <div class="tech-stack">
+                                <span class="tech-tag">Swift</span>
+                                <span class="tech-tag">Objective-C</span>
+                                <span class="tech-tag">Vision</span>
+                                <span class="tech-tag">AVFoundation</span>
+                                <span class="tech-tag">网络封装</span>
+                            </div>
+                            <div class="job-description">
+                                <p>负责支付业务部支付SDK、活体SDK开发，负责度小满商家助手手机端开发（外包岗）</p>
+
+                                <div class="project">
+                                    <div class="project-title">
+                                        <div class="project-name">度小满基础SDK</div>
+                                    </div>
+                                    <div class="achievement">
+                                        <div class="achievement-icon"><i class="fas fa-code"></i></div>
+                                        <div class="achievement-content">
+                                            <p>基础库开发维护，网络请求封装，埋点功能，公共组件等</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="project">
+                                    <div class="project-title">
+                                        <div class="project-name">度小满支付SDK</div>
+                                    </div>
+                                    <div class="achievement">
+                                        <div class="achievement-icon"><i class="fas fa-wallet"></i></div>
+                                        <div class="achievement-content">
+                                            <p>负责支付SDK相关功能开发维护，主要涉及支付流程中的页面，数据请求使用。SDK与web交互独立功能的开发，对接各app使用</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="project">
+                                    <div class="project-title">
+                                        <div class="project-name">度小满商家助手</div>
+                                    </div>
+                                    <div class="achievement">
+                                        <div class="achievement-icon"><i class="fas fa-store"></i></div>
+                                        <div class="achievement-content">
+                                            <p>聚合收款app，负责客户端功能开发与web交互功能开发。主要功能包括收款退款，以及动态独立功能，如视频录制、AIGC等</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="project">
+                                    <div class="project-title">
+                                        <div class="project-name">度小满活体SDK</div>
+                                    </div>
+                                    <div class="achievement">
+                                        <div class="achievement-icon"><i class="fas fa-user-check"></i></div>
+                                        <div class="achievement-content">
+                                            <p>活体信息收集SDK的开发维护，主要是人脸识别的使用和对应界面的布局</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Experience 3 -->
+                        <div class="timeline-item">
+                            <div class="company">
+                                <div class="company-name">
+                                    <!-- <span class="company-logo"></span> -->
+                                    北京四维图新科技股份有限公司
+                                </div>
+                                <div class="company-time">2019.07 - 2023.01</div>
+                            </div>
+                            <div class="job-title">
+                                <i class="fas fa-laptop-code"></i>
+                                <span>iOS开发工程师</span>
+                            </div>
+                            <div class="tech-stack">
+                                <span class="tech-tag">Swift</span>
+                                <span class="tech-tag">MapKit</span>
+                                <span class="tech-tag">Core Location</span>
+                                <span class="tech-tag">蓝牙协议</span>
+                                <span class="tech-tag">加密传输</span>
+                            </div>
+                            <div class="job-description">
+                                <p>负责图吧地图开发维护、车机与手机连接开发及企业内部项目开发</p>
+
+                                <div class="project">
+                                    <div class="project-title">
+                                        <div class="project-name">图吧地图</div>
+                                    </div>
+                                    <div class="achievement">
+                                        <div class="achievement-icon"><i class="fas fa-map"></i></div>
+                                        <div class="achievement-content">
+                                            <p>负责基于iOS开发和维护图吧地图，包括地图数据的处理、算法研究和UI设计等</p>
+                                        </div>
+                                    </div>
+                                    <div class="achievement">
+                                        <div class="achievement-icon"><i class="fas fa-route"></i></div>
+                                        <div class="achievement-content">
+                                            <p>负责将图吧地图引擎与iOS平台进行对接，并实现了路线规划、地点搜索和导航等功能</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="project">
+                                    <div class="project-title">
+                                        <div class="project-name">车机项目</div>
+                                    </div>
+                                    <div class="achievement">
+                                        <div class="achievement-icon"><i class="fas fa-car"></i></div>
+                                        <div class="achievement-content">
+                                            <p>负责车机与手机之间的通信协议开发和实现，以及与第三方设备的互联互通</p>
+                                        </div>
+                                    </div>
+                                    <div class="achievement">
+                                        <div class="achievement-icon"><i class="fas fa-lock"></i></div>
+                                        <div class="achievement-content">
+                                            <p>实现了数据传输的加密和压缩，提高了数据传输安全性和传输速度</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="project">
+                                    <div class="project-title">
+                                        <div class="project-name">内部项目开发</div>
+                                    </div>
+                                    <div class="achievement">
+                                        <div class="achievement-icon"><i class="fas fa-desktop"></i></div>
+                                        <div class="achievement-content">
+                                            <p>负责iOS屏幕镜像的逆向和服务端搭建，实现了高效、稳定的屏幕镜像传输</p>
+                                        </div>
+                                    </div>
+                                    <div class="achievement">
+                                        <div class="achievement-icon"><i class="fas fa-brain"></i></div>
+                                        <div class="achievement-content">
+                                            <p>作为核心开发人员，负责设计和实现基于机器学习的iOS应用程序，包括语音识别、图像识别等</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Experience 4 -->
+                        <div class="timeline-item">
+                            <div class="company">
+                                <div class="company-name">
+                                    <!-- <span class="company-logo"></span> -->
+                                    北京盈禾优仕科技有限责任公司
+                                </div>
+                                <div class="company-time">2017.02 - 2019.07</div>
+                            </div>
+                            <div class="job-title">
+                                <i class="fas fa-laptop-code"></i>
+                                <span>iOS开发工程师</span>
+                            </div>
+                            <div class="tech-stack">
+                                <span class="tech-tag">Swift</span>
+                                <span class="tech-tag">Objective-C</span>
+                                <span class="tech-tag">AVPlayer</span>
+                                <span class="tech-tag">Core Data</span>
+                            </div>
+                            <div class="job-description">
+                                <p>负责好未来旗下考满分系列产品开发</p>
+
+                                <div class="project">
+                                    <div class="project-title">
+                                        <div class="project-name">考满分出国留学App</div>
+                                    </div>
+                                    <div class="achievement">
+                                        <div class="achievement-icon"><i class="fas fa-graduation-cap"></i></div>
+                                        <div class="achievement-content">
+                                            <p>作为主要开发人员，负责开发和维护雅思、托福、GRE和GMAT应用程序，以及基础公共模块的支持</p>
+                                        </div>
+                                    </div>
+                                    <div class="achievement">
+                                        <div class="achievement-icon"><i class="fas fa-video"></i></div>
+                                        <div class="achievement-content">
+                                            <p>负责直播和录播课程的应用程序开发，包括实现视频播放、互动、评测等课程内容相关功能</p>
+                                        </div>
+                                    </div>
+                                    <div class="achievement">
+                                        <div class="achievement-icon"><i class="fas fa-credit-card"></i></div>
+                                        <div class="achievement-content">
+                                            <p>负责支付流程开发，涉及到多种支付渠道和接口的集成和优化，保证了支付安全和可靠性</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="project">
+                                    <div class="project-title">
+                                        <div class="project-name">考满分词汇App</div>
+                                    </div>
+                                    <div class="achievement">
+                                        <div class="achievement-icon"><i class="fas fa-bolt"></i></div>
+                                        <div class="achievement-content">
+                                            <p>通过采用多线程异步加锁和缓存（内存缓存和硬盘缓存）等策略，将出题时间从40秒优化到2秒以内</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Experience 5 -->
+                        <div class="timeline-item">
+                            <div class="company">
+                                <div class="company-name">
+                                    <!-- <span class="company-logo"></span> -->
+                                    北京壹零叁玖科技有限公司
+                                </div>
+                                <div class="company-time">2015.06 - 2017.02</div>
+                            </div>
+                            <div class="job-title">
+                                <i class="fas fa-laptop-code"></i>
+                                <span>iOS开发工程师</span>
+                            </div>
+                            <div class="tech-stack">
+                                <span class="tech-tag">Objective-C</span>
+                                <span class="tech-tag">UIKit</span>
+                                <span class="tech-tag">MapKit</span>
+                                <span class="tech-tag">IM</span>
+                                <span class="tech-tag">支付</span>
+                            </div>
+                            <div class="job-description">
+                                <p>负责iOS项目开发维护</p>
+
+                                <div class="project">
+                                    <div class="project-title">
+                                        <div class="project-name">驾考类App开发</div>
+                                    </div>
+                                    <div class="achievement">
+                                        <div class="achievement-icon"><i class="fas fa-car"></i></div>
+                                        <div class="achievement-content">
+                                            <p>负责整体技术路线规划、调研、UI设计、接口编写与调试等，涉及IM、语音、地图、支付、分享及第三方登录等模块</p>
+                                        </div>
+                                    </div>
+                                    <div class="achievement">
+                                        <div class="achievement-icon"><i class="fas fa-code"></i></div>
+                                        <div class="achievement-content">
+                                            <p>负责基础架构开发，包括数据模型、网络请求、数据持久化等，确保APP的稳定性</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Right Column -->
+            <div class="right-column">
+                <!-- Skills -->
+                <section class="section">
+                    <h2 class="section-title">
+                        <i class="fas fa-tools"></i>
+                        <span>核心技术栈</span>
+                    </h2>
+
+                    <div class="skill-category">
+                        <h4><i class="fas fa-code"></i> 编程语言</h4>
+                        <div class="skills-list">
+                            <div class="skill-item highlight">Swift</div>
+                            <div class="skill-item highlight">Objective-C</div>
+                            <div class="skill-item">Python</div>
+                            <div class="skill-item">JavaScript</div>
+                            <div class="skill-item">Golang</div>
+                        </div>
+                    </div>
+
+                    <div class="skill-category">
+                        <h4><i class="fas fa-layer-group"></i> iOS框架</h4>
+                        <div class="skills-list">
+                            <div class="skill-item">UIKit</div>
+                            <div class="skill-item">SwiftUI</div>
+                            <div class="skill-item">Core Data</div>
+                            <div class="skill-item">Core Animation</div>
+                            <div class="skill-item">AVFoundation</div>
+                            <div class="skill-item">Vision</div>
+                            <div class="skill-item">SpriteKit</div>
+                        </div>
+                    </div>
+
+                    <div class="skill-category">
+                        <h4><i class="fas fa-project-diagram"></i> 架构模式</h4>
+                        <div class="skills-list">
+                            <div class="skill-item">MVVM</div>
+                            <div class="skill-item">MVC</div>
+                            <div class="skill-item">模块化设计</div>
+                        </div>
+                    </div>
+
+                    <div class="skill-category">
+                        <h4><i class="fas fa-network-wired"></i> 网络技术</h4>
+                        <div class="skills-list">
+                            <div class="skill-item">URLSession</div>
+                            <div class="skill-item">Alamofire</div>
+                            <div class="skill-item">Socket编程</div>
+                            <div class="skill-item">gRPC</div>
+                        </div>
+                    </div>
+
+                    <div class="skill-category">
+                        <h4><i class="fas fa-robot"></i> 机器学习</h4>
+                        <div class="skills-list">
+                            <div class="skill-item">PyTorch</div>
+                            <div class="skill-item">CoreML</div>
+                            <div class="skill-item">Vision</div>
+                            <div class="skill-item">自然语言处理</div>
+                        </div>
+                    </div>
+
+                    <div class="skill-category">
+                        <h4><i class="fas fa-cogs"></i> 工具 & 平台</h4>
+                        <div class="skills-list">
+                            <div class="skill-item">iOS</div>
+                            <div class="skill-item">Godot</div>
+                            <div class="skill-item">Git</div>
+                            <div class="skill-item">Jenkins</div>
+                            <div class="skill-item">CocoaPods</div>
+                            <div class="skill-item">SPM</div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Key Achievements -->
+                <section class="section">
+                    <h2 class="section-title">
+                        <i class="fas fa-trophy"></i>
+                        <span>关键成就</span>
+                    </h2>
+
+                    <div class="key-achievement">
+                        <div class="achievement">
+                            <div class="achievement-icon"><i class="fas fa-bolt" style="color: var(--primary);"></i>
+                            </div>
+                            <div class="achievement-content">
+                                <strong>性能优化</strong>
+                                <p>通过多线程异步加锁和缓存策略，将考满分词汇出题时间从40秒优化到2秒以内</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="key-achievement">
+                        <div class="achievement">
+                            <div class="achievement-icon"><i class="fas fa-brain" style="color: var(--accent);"></i>
+                            </div>
+                            <div class="achievement-content">
+                                <strong>机器学习应用</strong>
+                                <p>负责设计和实现基于机器学习的iOS应用程序，包括语音识别、图像识别等功能</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="key-achievement">
+                        <div class="achievement">
+                            <div class="achievement-icon"><i class="fas fa-desktop"
+                                    style="color: var(--secondary);"></i></div>
+                            <div class="achievement-content">
+                                <strong>逆向工程</strong>
+                                <p>负责iOS屏幕镜像的逆向和服务端搭建，实现了高效、稳定的屏幕镜像传输</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="key-achievement">
+                        <div class="achievement">
+                            <div class="achievement-icon"><i class="fas fa-car" style="color: var(--success);"></i>
+                            </div>
+                            <div class="achievement-content">
+                                <strong>车联网开发</strong>
+                                <p>设计并实现车载车机和手机之间的无线连接和数据传输协议</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Education -->
+                <section class="section">
+                    <h2 class="section-title">
+                        <i class="fas fa-graduation-cap"></i>
+                        <span>教育经历</span>
+                    </h2>
+
+                    <div class="education-item">
+                        <div class="education-details">
+                            <div class="school">北京邮电大学</div>
+                            <div class="degree">计算机科学与技术 | 本科（在职）</div>
+                        </div>
+                        <div class="education-time">2020-2024</div>
+                    </div>
+
+                    <div class="education-item">
+                        <div class="education-details">
+                            <div class="school">青岛滨海学院</div>
+                            <div class="degree">软件工程 | 大专</div>
+                        </div>
+                        <div class="education-time">2012-2015</div>
+                    </div>
+                </section>
+
+                <!-- Skills Progress -->
+                <section class="section">
+                    <h2 class="section-title">
+                        <i class="fas fa-chart-line"></i>
+                        <span>技能评估</span>
+                    </h2>
+
+                    <div class="skill-category">
+                        <h4>Swift / Objective-C</h4>
+                        <div class="progress-bar">
+                            <div class="progress progress-95"></div>
+                        </div>
+                    </div>
+
+                    <div class="skill-category">
+                        <h4>iOS开发框架</h4>
+                        <div class="progress-bar">
+                            <div class="progress progress-90"></div>
+                        </div>
+                    </div>
+
+                    <div class="skill-category">
+                        <h4>性能优化</h4>
+                        <div class="progress-bar">
+                            <div class="progress progress-90"></div>
+                        </div>
+                    </div>
+
+                    <div class="skill-category">
+                        <h4>架构设计</h4>
+                        <div class="progress-bar">
+                            <div class="progress progress-85"></div>
+                        </div>
+                    </div>
+
+                    <div class="skill-category">
+                        <h4>机器学习集成</h4>
+                        <div class="progress-bar">
+                            <div class="progress progress-80"></div>
+                        </div>
+                    </div>
+                    <div class="skill-category">
+                        <h4>游戏开发</h4>
+                        <div class="progress-bar">
+                            <div class="progress progress-50"></div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <!-- Print Button -->
+    <button class="print-button" onclick="window.print()" title="打印简历">
+        <i class="fas fa-print"></i>
+    </button>
+</body>
+
+</html>
